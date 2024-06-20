@@ -2,6 +2,8 @@ import OpenAI from "openai";
 import type { Decorator, Loader } from "@storybook/react";
 import { StoryContextForLoaders } from "@storybook/types";
 
+import { TAG } from "./constants";
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
@@ -41,6 +43,10 @@ Generate me args for the Storybook story called "${context.name}". Omit properti
 `;
 
 export const withAiArgsLoader: Loader = async (context) => {
+  if (context.tags.indexOf(TAG) < 0) {
+    return;
+  }
+
   const completion = await openai.chat.completions.create({
     messages: [{ role: "user", content: createPrompt(context) }],
     model: "gpt-3.5-turbo",

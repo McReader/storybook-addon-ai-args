@@ -13,7 +13,9 @@ export default {
 
 type Story = StoryObj<typeof Button>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  tags: ["ai-args"],
+};
 
 export const RedBackground: Story = {};
 
